@@ -30,7 +30,8 @@ class InscriptionController extends Controller
             'acceptTerms' => 'required|boolean|in:1,true',
         ]);
 
-        $inscription = Inscription::create($validatedData)->save();
+        $inscription = Inscription::create($validatedData);
+        $inscription->save();
 
         if ($inscription) {
             Mail::to($validatedData['parentEmail'])->send(new Confirmation([

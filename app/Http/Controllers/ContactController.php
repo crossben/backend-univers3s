@@ -27,7 +27,8 @@ class ContactController extends Controller
                 'message' => 'required|string|max:2000',
             ]);
 
-            $contact = new Contact($validatedData)->save();
+            $contact = new Contact($validatedData);
+            $contact->save();
 
             if (!$contact) {
                 return response()->json(['message' => 'Echec lors de l\'enregistrement.'], 500);

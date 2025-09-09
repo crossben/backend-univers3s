@@ -35,7 +35,8 @@ class BtpController extends Controller
             }
 
             // Create and save the Btp model
-            $btp = new Btp($validatedData)->save();
+            $btp = new Btp($validatedData);
+            $btp->save();
 
             if ($btp) {
                 Mail::to($validatedData['email'])->send(new Confirmation([

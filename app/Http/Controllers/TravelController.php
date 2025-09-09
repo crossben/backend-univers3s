@@ -43,7 +43,8 @@ class TravelController extends Controller
             // Ensure boolean is cast correctly
             $validatedData['acceptTerms'] = (bool) ($validatedData['acceptTerms'] ?? false);
 
-            $travel = Travel::create($validatedData)->save();
+            $travel = Travel::create($validatedData);
+            $travel->save();
 
             if ($travel) {
                 Mail::to($validatedData['travelerEmail'])->send(new Confirmation([
