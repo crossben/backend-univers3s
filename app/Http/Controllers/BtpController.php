@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Email;
 use Illuminate\Http\Request;
 use App\Models\Btp;
-use App\Mail\Confirmation;
 use App\Notifications\ConfimationMail;
 use Illuminate\Support\Facades\Notification;
 
@@ -13,7 +12,8 @@ class BtpController extends Controller
 {
     public function index()
     {
-        return response()->json(['message' => 'BtpController is working!']);
+        $btps = Btp::all();
+        return response()->json(['data' => $btps]);
     }
 
     public function store(Request $request)
@@ -31,9 +31,9 @@ class BtpController extends Controller
             ]);
 
             // Additional manual validation (if needed)
-            if (strtotime($validatedData['startDate']) > strtotime($validatedData['endDate'])) {
-                return response()->json(['message' => 'La date de début doit être antérieure ou égale à la date de fin.'], 422);
-            }
+            // if (strtotime($validatedData['startDate']) > strtotime($validatedData['endDate'])) {
+            //     return response()->json(['message' => 'La date de début doit être antérieure ou égale à la date de fin.'], 422);
+            // }
 
             // Create and save the Btp model
             $btp = new Btp($validatedData);

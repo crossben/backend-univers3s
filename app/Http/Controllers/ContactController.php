@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
-use App\Mail\Confirmation;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Email;
 use App\Notifications\ConfimationMail;
 use Illuminate\Support\Facades\Notification;

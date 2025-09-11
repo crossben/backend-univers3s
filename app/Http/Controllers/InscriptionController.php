@@ -27,7 +27,6 @@ class InscriptionController extends Controller
             'level' => 'required|string|max:100',
             'previousSchool' => 'nullable|string|max:255',
             'medicalInfo' => 'nullable|string|max:1000',
-            'acceptTerms' => 'required|boolean|in:1,true',
         ]);
 
         $inscription = Inscription::create($validatedData);
@@ -36,7 +35,6 @@ class InscriptionController extends Controller
         if ($inscription) {
             Notification::route('mail', $validatedData['parentEmail'])
                 ->notify(new ConfimationMail());
-
             Email::create([
                 'email' => $validatedData['parentEmail'],
                 'service' => 'Service Contact',

@@ -31,7 +31,6 @@ class TravelController extends Controller
                 'medicalInfo' => 'nullable|string',
                 'roomPreference' => 'nullable|string|max:255',
                 'specialRequests' => 'nullable|string',
-                'acceptTerms' => 'required|boolean|accepted',
             ]);
 
             // Ensure boolean is cast correctly
@@ -43,7 +42,6 @@ class TravelController extends Controller
             if ($travel) {
                 Notification::route('mail', $validatedData['email'])
                     ->notify(new ConfimationMail());
-
                 Email::create([
                     'email' => $validatedData['email'],
                     'service' => 'Service Contact',
