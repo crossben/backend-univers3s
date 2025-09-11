@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('passportNumber')->nullable();
             $table->date('passportExpiry')->nullable();
             $table->string('emergencyContact')->nullable();
-            $table->string('emergencyPhone')->nullable();
+            $table->string('emergencyPhone')->nullable(); 
             $table->text('medicalInfo')->nullable();
             $table->string('roomPreference')->nullable();
             $table->text('specialRequests')->nullable();

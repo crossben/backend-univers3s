@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Inscription extends Model
 {
     protected $fillable = [
-        'studentName',
-        'studentAge',
-        'parentName',
-        'parentPhone',
-        'parentEmail',
-        'address',
-        'level',
-        'previousSchool',
-        'medicalInfo',
-        'acceptTerms',
+        'studentName',        // string
+        'studentAge',         // integer, nullable
+        'parentName',         // string
+        'parentPhone',        // string
+        'parentEmail',        // string
+        'address',            // string
+        'level',              // string
+        'previousSchool',     // string, nullable
+        'medicalInfo',        // text, nullable
+        'acceptTerms',        // boolean, default false
     ];
 
     protected $casts = [

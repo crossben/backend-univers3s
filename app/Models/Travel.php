@@ -7,14 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Travel extends Model
 {
     protected $fillable = [
-        'fullName',
+        'firstName',
+        'lastName',
         'email',
         'phone',
-        'departureDate',
-        'returnDate',
-        'destination',
-        'numberOfTravelers',
+        'address',
+        'passportNumber',
+        'passportExpiry',
+        'emergencyContact',
+        'emergencyPhone',
+        'medicalInfo',
+        'roomPreference',
         'specialRequests',
+        'acceptTerms',
     ];
 
     protected $casts = [
@@ -25,6 +30,7 @@ class Travel extends Model
         'destination' => 'string',
         'numberOfTravelers' => 'integer',
         'specialRequests' => 'string',
+        'acceptTerms' => 'boolean',
     ];
 
     protected $hidden = [

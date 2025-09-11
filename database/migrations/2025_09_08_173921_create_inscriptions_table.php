@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('level');
             $table->string('previousSchool')->nullable();
             $table->text('medicalInfo')->nullable();
-            $table->boolean('acceptTerms')->default(false);
+            $table->boolean('acceptTerms')->default(false); 
             $table->timestamps();
         });
     }

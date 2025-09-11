@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Mail\Confirmation;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Email;
 use App\Models\Inscription;
+use App\Notifications\ConfimationMail;
+use Illuminate\Support\Facades\Notification;
 
 class InscriptionController extends Controller
 {
@@ -34,14 +34,12 @@ class InscriptionController extends Controller
         $inscription->save();
 
         if ($inscription) {
-            Mail::to($validatedData['parentEmail'])->send(new Confirmation([
-                'email' => $validatedData['parentEmail'],
-                'service' => 'Service Inscription',
-            ]));
+            Notification::route('mail', $validatedData['parentEmail'])
+                ->notify(new ConfimationMail());
 
             Email::create([
                 'email' => $validatedData['parentEmail'],
-                'service' => 'Service Inscription',
+                'service' => 'Service Contact',
             ]);
         }
 

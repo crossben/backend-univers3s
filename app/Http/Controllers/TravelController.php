@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Email;
 use Illuminate\Http\Request;
 use App\Models\Travel;
-use App\Mail\Confirmation;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\ConfimationMail;
+use Illuminate\Support\Facades\Notification;
 
 class TravelController extends Controller
 {
@@ -19,9 +19,6 @@ class TravelController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'destination' => 'required|string|max:255',
-                'startDate' => 'required|date',
-                'endDate' => 'required|date|after_or_equal:startDate',
                 'firstName' => 'nullable|string|max:255',
                 'lastName' => 'nullable|string|max:255',
                 'email' => 'nullable|email|max:255',
@@ -35,9 +32,6 @@ class TravelController extends Controller
                 'roomPreference' => 'nullable|string|max:255',
                 'specialRequests' => 'nullable|string',
                 'acceptTerms' => 'required|boolean|accepted',
-                'travelerName' => 'required|string|max:255',
-                'travelerEmail' => 'required|email|max:255',
-                'notes' => 'nullable|string|max:1000',
             ]);
 
             // Ensure boolean is cast correctly
@@ -47,14 +41,12 @@ class TravelController extends Controller
             $travel->save();
 
             if ($travel) {
-                Mail::to($validatedData['travelerEmail'])->send(new Confirmation([
-                    'email' => $validatedData['travelerEmail'],
-                    'service' => 'Service Voyage',
-                ]));
+                Notification::route('mail', $validatedData['email'])
+                    ->notify(new ConfimationMail());
 
                 Email::create([
-                    'email' => $validatedData['travelerEmail'],
-                    'service' => 'Service Voyage',
+                    'email' => $validatedData['email'],
+                    'service' => 'Service Contact',
                 ]);
             }
 

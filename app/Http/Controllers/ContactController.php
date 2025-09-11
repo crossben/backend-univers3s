@@ -7,13 +7,15 @@ use App\Models\Contact;
 use App\Mail\Confirmation;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Email;
-
+use App\Notifications\ConfimationMail;
+use Illuminate\Support\Facades\Notification;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        return response()->json(['message' => 'ContactController is working!']);
+        $contacts = Contact::all();
+        return response()->json(['message' => 'ContactController is working!', 'data' => $contacts]);
     }
 
     public function store(Request $request)
@@ -34,12 +36,10 @@ class ContactController extends Controller
                 return response()->json(['message' => 'Echec lors de l\'enregistrement.'], 500);
             }
 
-
             if ($contact) {
-                Mail::to($validatedData['email'])->send(new Confirmation([
-                    'email' => $validatedData['email'],
-                    'service' => 'Service Contact',
-                ]));
+                Notification::route('mail', $validatedData['email'])
+                    ->notify(new ConfimationMail());
+
                 Email::create([
                     'email' => $validatedData['email'],
                     'service' => 'Service Contact',

@@ -6,7 +6,8 @@ use App\Models\Email;
 use Illuminate\Http\Request;
 use App\Models\Btp;
 use App\Mail\Confirmation;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\ConfimationMail;
+use Illuminate\Support\Facades\Notification;
 
 class BtpController extends Controller
 {
@@ -39,14 +40,12 @@ class BtpController extends Controller
             $btp->save();
 
             if ($btp) {
-                Mail::to($validatedData['email'])->send(new Confirmation([
-                    'email' => $validatedData['email'],
-                    'service' => 'Service BTP',
-                ]));
+                Notification::route('mail', $validatedData['email'])
+                    ->notify(new ConfimationMail());
 
                 Email::create([
                     'email' => $validatedData['email'],
-                    'service' => 'Service BTP',
+                    'service' => 'Service Contact',
                 ]);
             }
 
