@@ -45,7 +45,7 @@ class BtpController extends Controller
 
                 Email::create([
                     'email' => $validatedData['email'],
-                    'service' => 'Service Contact',
+                    'service' => 'Contact',
                 ]);
             }
 
