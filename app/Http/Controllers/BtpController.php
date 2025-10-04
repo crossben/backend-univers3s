@@ -12,8 +12,19 @@ class BtpController extends Controller
 {
     public function index()
     {
-        $btps = Btp::all();
-        return response()->json(['data' => $btps]);
+        try {
+            $btps = Btp::all();
+            if ($btps->isEmpty()) {
+                return response()->json(['message' => 'No Btp data found'], 404);
+            }
+            return response()->json(['data' => $btps]);
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de la récupération des données Btp: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Erreur lors de la récupération des données Btp.',
+                'error' => 'Une erreur interne est survenue.'
+            ], 500);
+        }
     }
 
     public function store(Request $request)
@@ -71,19 +82,45 @@ class BtpController extends Controller
 
     public function show($id)
     {
-        // Logic to retrieve specific contact data by ID
-        return response()->json(['message' => "Contact data for ID: $id"]);
+        $btp = Btp::find($id);
+        if (!$btp) {
+            return response()->json(['message' => 'Btp not found'], 404);
+        }
+        return response()->json(['data' => $btp]);
     }
 
     public function update(Request $request, $id)
     {
-        // Logic to update specific contact data by ID
-        return response()->json(['message' => "Contact data for ID: $id updated successfully"]);
+        $btp = Btp::find($id);
+        if (!$btp) {
+            return response()->json(['message' => 'Btp not found'], 404);
+        }
+
+        // Update the Btp model with validated data
+        $validatedData = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:50',
+            'projectType' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'budget' => 'nullable|string|max:255',
+            'timeline' => 'nullable|string|max:255',
+        ]);
+
+        $btp->fill($validatedData);
+        $btp->save();
+
+        return response()->json(['message' => "Btp data for ID: $id updated successfully"]);
     }
 
     public function destroy($id)
     {
-        // Logic to delete specific contact data by ID
-        return response()->json(['message' => "Contact data for ID: $id deleted successfully"]);
+        $btp = Btp::find($id);
+        if (!$btp) {
+            return response()->json(['message' => 'Btp not found'], 404);
+        }
+
+        $btp->delete();
+        return response()->json(['message' => "Btp data for ID: $id deleted successfully"]);
     }
 }

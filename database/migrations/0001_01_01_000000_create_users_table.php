@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'manager', 'viewer'])->default('viewer'); // Added role field with default value 'viewer'
+            $table->boolean('has_access')->default(false);
+            $table->enum('role', ['admin', 'manager'])->default('manager'); // Added role field with default value 'manager'
             $table->rememberToken();
             $table->timestamps();
         });

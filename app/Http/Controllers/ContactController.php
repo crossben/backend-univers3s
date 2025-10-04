@@ -12,8 +12,20 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::all();
-        return response()->json(['message' => 'ContactController is working!', 'data' => $contacts]);
+        try {
+            $contacts = Contact::all();
+
+            return response()->json([
+                'message' => 'ok!',
+                'data' => $contacts
+            ], 200);
+        } catch (\Exception $e) {
+            \Log::error('Contact index error: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Une erreur inattendue est survenue.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function store(Request $request)
@@ -60,19 +72,43 @@ class ContactController extends Controller
 
     public function show($id)
     {
-        // Logic to retrieve specific contact data by ID
-        return response()->json(['message' => "Contact data for ID: $id"]);
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return response()->json(['message' => 'Contact not found'], 404);
+        }
+        return response()->json(['data' => $contact]);
     }
 
     public function update(Request $request, $id)
     {
-        // Logic to update specific contact data by ID
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return response()->json(['message' => 'Contact not found'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'nom' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'telephone' => 'nullable|string|max:20',
+            'sujet' => 'nullable|string|max:255',
+            'message' => 'nullable|string|max:2000',
+        ]);
+
+        $contact->fill($validatedData);
+        $contact->save();
+
         return response()->json(['message' => "Contact data for ID: $id updated successfully"]);
     }
 
     public function destroy($id)
     {
-        // Logic to delete specific contact data by ID
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return response()->json(['message' => 'Contact not found'], 404);
+        }
+
+        $contact->delete();
         return response()->json(['message' => "Contact data for ID: $id deleted successfully"]);
     }
 }
+

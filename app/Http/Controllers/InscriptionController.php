@@ -12,7 +12,15 @@ class InscriptionController extends Controller
 {
     public function index()
     {
-        return response()->json(['message' => 'Inscription endpoint']);
+        try {
+            $insciptions = Inscription::all();
+            if ($insciptions->isEmpty()) {
+                return response()->json(['message' => 'No inscription data found'], 404);
+            }
+            return response()->json(['data' => $insciptions]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)
