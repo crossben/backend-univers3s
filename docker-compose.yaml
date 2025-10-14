@@ -16,6 +16,16 @@ services:
       DB_PASSWORD: 12334567
       DB_PORT: 3306
       DB_USERNAME: mysql
+
+      # Email configuration
+      MAIL_MAILER: smtp
+      MAIL_SCHEME: null
+      MAIL_HOST: smtp.hostinger.com
+      MAIL_PORT: 465
+      MAIL_USERNAME: utt@univers3s.com
+      MAIL_PASSWORD: tdBdW3VRw@
+      MAIL_FROM_ADDRESS: "utt@univers3s.com"
+      MAIL_FROM_NAME: "Univer3s"
     volumes:
       - .:/var/www
     networks:
