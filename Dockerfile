@@ -12,11 +12,13 @@ RUN apt-get update && apt-get install -y \
     git \
     zip \
     curl \
+    libpq-dev \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
+# Install PHP extensions including PostgreSQL
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip
+    && docker-php-ext-install gd pdo pdo_pgsql zip
 
 # Enable Apache mod_rewrite for Laravel routing
 RUN a2enmod rewrite
@@ -36,9 +38,9 @@ RUN composer install --no-interaction --prefer-dist
 # Laravel caching and optimization
 RUN php artisan config:cache \
     && php artisan route:cache \
-    && php artisan view:cache
+    && php artisan view:cache 
 
-# Fix permissions (important!)
+# Fix permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 

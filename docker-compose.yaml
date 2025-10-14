@@ -5,12 +5,39 @@ services:
       dockerfile: Dockerfile
     container_name: laravel-api
     ports:
-      - "80"  # Maps container port 80 (Apache) to localhost:8000
+      - "80:80"  # Maps host port 80 to container's Apache port
     volumes:
       - .:/var/www
+    depends_on:
+      - db
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel
+      - DB_PASSWORD=secret
+    networks:
+      - laravel_network
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - db_data:/var/lib/postgresql/data
     networks:
       - laravel_network
 
 networks:
   laravel_network:
     driver: bridge
+
+volumes:
+  db_data:
