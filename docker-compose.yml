@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-api
+    ports:
+      - "8000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=base64:base64:DWP8lRQWbrTk31EqFQ3yYVNTxyBrTup+lmD5c94ii9Y=
+      - DB_CONNECTION=pgsql
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_DATABASE=univers3s
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=12334567
+    volumes:
+      - .:/var/www
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    driver: bridge
