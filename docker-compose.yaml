@@ -6,26 +6,6 @@ services:
     container_name: laravel-api
     ports:
       - "80"  # Maps container port 80 (Apache) to localhost:8000
-    environment:
-      APP_ENV: local
-      APP_DEBUG: true
-      APP_KEY: base64:DWP8lRQWbrTk31EqFQ3yYVNTxyBrTup+lmD5c94ii9Y=
-      DB_CONNECTION: mysql
-      DB_DATABASE: univers3s
-      DB_HOST: cwksk440gcckwsk84wos0wkc
-      DB_PASSWORD: 12334567
-      DB_PORT: 3306
-      DB_USERNAME: mysql
-
-      # Email configuration
-      MAIL_MAILER: smtp
-      MAIL_SCHEME: null
-      MAIL_HOST: smtp.hostinger.com
-      MAIL_PORT: 465
-      MAIL_USERNAME: utt@univers3s.com
-      MAIL_PASSWORD: tdBdW3VRw@
-      MAIL_FROM_ADDRESS: "utt@univers3s.com"
-      MAIL_FROM_NAME: "Univer3s"
     volumes:
       - .:/var/www
     networks:
