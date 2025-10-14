@@ -12,7 +12,7 @@ services:
       APP_KEY: base64:DWP8lRQWbrTk31EqFQ3yYVNTxyBrTup+lmD5c94ii9Y=
       DB_CONNECTION: mysql
       DB_DATABASE: mysql-database-cwksk440gcckwsk84wos0wkc
-      DB_HOST: cwksk440gcckwsk84wos0wkc
+      DB_HOST: 127.0.0.1
       DB_PASSWORD: s3P2mpEQ9cgkv5Ka0w32iL7PuLQAftwQeytJvo0UOnpW61l2M6OA7qXVojiIUbHV
       DB_PORT: 3306
       DB_USERNAME: mysql
