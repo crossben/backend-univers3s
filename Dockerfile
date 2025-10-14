@@ -38,8 +38,7 @@ RUN composer install --no-interaction --prefer-dist
 # Laravel caching and optimization
 RUN php artisan config:cache \
     && php artisan route:cache \
-    && php artisan view:cache \
-    && php artisan migrate --force
+    && php artisan view:cache 
 
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
